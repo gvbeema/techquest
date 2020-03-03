@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="apple-touch-icon" type="image/png" href="https://static.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png" />
+<meta name="apple-mobile-web-app-title" content="CodePen">
+<link rel="shortcut icon" type="image/x-icon" href="https://static.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico" />
+<link rel="mask-icon" type="" href="https://static.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg" color="#111" />
+<meta charset="utf-8">
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>CodePen - Diagonal Layouts in 2020</title>
+<link rel="stylesheet" media="screen" href="https://static.codepen.io/assets/fullpage/fullpage-4de243a40619a967c0bf13b95e1ac6f8de89d943b7fc8710de33f681fe287604.css" />
+<link href='https://fonts.googleapis.com/css?family=Lato:300,400,400italic,700,700italic,900,900italic' rel='stylesheet'>
+<link rel="apple-touch-icon" type="image/png" href="https://static.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png" />
+<meta name="apple-mobile-web-app-title" content="CodePen">
+<link rel="shortcut icon" type="image/x-icon" href="https://static.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico" />
+<link rel="mask-icon" type="" href="https://static.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg" color="#111" />
+<title>CodePen - Diagonal Layouts in 2020</title>
+<script>
+  if (document.location.search.match(/type=embed/gi)) {
+    window.parent.postMessage("resize", "*");
+  }
+</script>
+<style>
+    html { font-size: 15px; }
+    html, body { margin: 0; padding: 0; min-height: 100%; }
+    body { height:100%; display: flex; flex-direction: column; }
+    .referer-warning {
+      background: black;
+      box-shadow: 0 2px 5px rgba(0,0,0, 0.5);
+      padding: 0.75em;
+      color: white;
+      text-align: center;
+      font-family: 'Lato', 'Lucida Grande', 'Lucida Sans Unicode', Tahoma, Sans-Serif;
+      line-height: 1.2;
+      font-size: 1rem;
+      position: relative;
+      z-index: 2;
+    }
+    .referer-warning h1 { font-size: 1.2rem; margin: 0; }
+    .referer-warning a { color: #56bcf9; } /* $linkColorOnBlack */
+  </style>
+</head>
+<body class="">
+<div class="referer-warning">
+<h1>⚠️ Do not enter passwords or personal information on this page. ⚠️</h1>
+This is a code demo posted by a web developer on <a href="https://codepen.io">codepen.io</a>.
+<br />
+A referer from CodePen is required to render this page view, and your browser is not sending one (<a href="https://blog.codepen.io/2017/10/05/regarding-referer-headers/" target="_blank">more details</a>).</h1>
+</div>
+<div id="result-iframe-wrap" role="main">
+<iframe id="result" srcdoc="
+<!DOCTYPE html>
+<html lang=&quot;en&quot; >
+
+<head>
+
+  <meta charset=&quot;UTF-8&quot;>
+  
+<link rel=&quot;apple-touch-icon&quot; type=&quot;image/png&quot; href=&quot;https://static.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png&quot; />
+<meta name=&quot;apple-mobile-web-app-title&quot; content=&quot;CodePen&quot;>
+
+<link rel=&quot;shortcut icon&quot; type=&quot;image/x-icon&quot; href=&quot;https://static.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico&quot; />
+
+<link rel=&quot;mask-icon&quot; type=&quot;&quot; href=&quot;https://static.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg&quot; color=&quot;#111&quot; />
+
+
+  <title>CodePen - Diagonal Layouts in 2020</title>
+  <link href=&quot;https://fonts.googleapis.com/css?family=Raleway:400,700,900&amp;display=swap&quot; rel=&quot;stylesheet&quot;> 
+  
+  <link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css&quot;>
+
+  
+  
+<style>
+@charset &quot;UTF-8&quot;;
+:root {
+  --width: 100vw;
+  --full-width: 100vw;
+  --angle: -11deg;
+  /*-----------------
+  Magic Number Alert:
+  
+  the 0.09719 is calculated by this formula:
+  tan(11°) / 2
+  11° is the current skewY value.
+  ------------------*/
+  --magic-number: 0.09719;
+  --skew-padding: calc(var(--width) * var(--magic-number));
+  --clip-padding: calc(var(--full-width) * var(--magic-number));
+}
+@media (min-width: 42em) {
+  :root {
+    --width: 42rem;
+  }
+}
+
+.diagonal-box {
+  position: relative;
+  padding: var(--skew-padding) 0;
+  margin-top: -1px;
+}
+.diagonal-box:before {
+  content: &quot;&quot;;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  transform: skewy(var(--angle));
+  transform-origin: 50% 0;
+  outline: 1px solid transparent;
+  backface-visibility: hidden;
+}
+
+.bg-one:before {
+  background-image: linear-gradient(45deg, #654ea3, #eaafc8);
+}
+
+.bg-two:before {
+  background-image: linear-gradient(-135deg, #ff0084, #33001b);
+}
+
+.bg-three:before {
+  background-image: linear-gradient(-135deg, #007, #003);
+}
+
+.content {
+  max-width: var(--width);
+  margin: 0 auto;
+  padding: 1.5em;
+  position: relative;
+  /* -----------
+  enable the border to see, that the content
+  perfectly fits into the section withou
+  bleeding into the adjecting areas:
+  ------------ */
+}
+
+/* --------------------
+Clip Path Update
+-------------------- */
+.clip-path {
+  margin-top: calc( ( var(--clip-padding) * -1 ) - 2px );
+  background-image: linear-gradient(rgba(0, 0, 0, 0.05) 50%, 0, transparent 100%), linear-gradient(-135deg, #0cc, #066);
+  background-size: .5em .5em, 100% 100%;
+  padding: calc( ( var(--clip-padding) * 2 ) - ( var(--clip-padding) - var(--skew-padding) ) ) 0 4em;
+  clip-path: polygon(0% calc(var(--clip-padding) * 2), 100% 0%, 100% 100%, 0% 100%);
+}
+
+/* --------------------
+Presentational Styles 
+-------------------- */
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 100%;
+  transition: font-size 0.2s linear;
+}
+@media (min-width: 70em) {
+  html {
+    font-size: 125%;
+  }
+}
+
+body {
+  background: #003;
+  padding-top: 8em;
+  color: #fff;
+  font-family: 'Raleway', sans-serif;
+}
+
+h1 {
+  text-align: center;
+  margin: 0 auto 1em;
+  padding: 0 1em;
+  max-width: 42rem;
+  line-height: 1.2;
+  transform: skewY(var(--angle));
+  font-size: 3em;
+  text-transform: uppercase;
+  font-weight: 900;
+}
+
+h2 {
+  font-size: 2.5em;
+  margin: 0 0 0.5em;
+  font-weight: 900;
+}
+
+.intro {
+  font-size: 1.25em;
+  transform: skewY(var(--angle));
+  margin: 0em auto 0em;
+  text-align: center;
+  background: #fff;
+  color: #003;
+  font-weight: 900;
+  padding: 0.5em;
+  text-transform: uppercase;
+}
+.intro a {
+  background-image: linear-gradient(transparent 90%, 0, #003 100%);
+  background-image: none;
+  border-bottom: 4px solid;
+  transition: none;
+}
+.intro a:hover {
+  border-color: #a06;
+  opacity: 1;
+}
+
+p {
+  font-size: 1.25em;
+  margin: 0;
+  line-height: 1.5;
+}
+p + p, svg + p {
+  margin-top: 1em;
+}
+p code {
+  background: #0033;
+  padding: 0.125em 0.375em;
+  border-radius: 0.125em;
+}
+@media (min-width: 35em) {
+  p code {
+    white-space: nowrap;
+  }
+}
+p a {
+  color: inherit;
+  text-decoration: none;
+  background-image: linear-gradient(transparent 90%, 0, #fffa 100%);
+  padding: 0.125em 0;
+  transition: opacity 0.3s ease-out;
+}
+p a:hover {
+  text-decoration: none;
+  opacity: 0.8;
+}
+
+.columns {
+  display: flex;
+  margin: 2em -1em;
+}
+
+.figure {
+  display: block;
+  width: 100%;
+  margin: 0 1em;
+}
+.figure svg {
+  display: block;
+  width: 100%;
+}
+.figure .object {
+  transform-origin: 140px 140px;
+}
+.figure .object--rotate {
+  animation: rotate 3s ease-in-out alternate infinite;
+}
+.figure .object--skew {
+  animation: skew 3s ease-in-out alternate infinite;
+}
+.figure .object--skew-pause {
+  animation: skew-pause 6s ease-in-out infinite;
+}
+.figure .object--skew-pause-alt {
+  animation: skew-pause-alt 6s ease-in-out infinite;
+}
+.figure figcaption {
+  margin-top: 0.5em;
+  line-height: 1.5;
+  font-weight: 700;
+  opacity: 0.9;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-11deg);
+  }
+  100% {
+    transform: rotate(-11deg) scaleX(1.2);
+  }
+}
+@keyframes skew {
+  to {
+    transform: skewY(-11deg);
+  }
+}
+@keyframes skew-pause {
+  0%, 70%, 100% {
+    transform: skewY(0deg);
+  }
+  20%, 50% {
+    transform: skewY(-11deg);
+  }
+}
+@keyframes skew-pause-alt {
+  0%, 40%, 100% {
+    transform: skewY(0deg);
+  }
+  20%, 30% {
+    transform: skewY(-11deg);
+  }
+}
+.formula {
+  font-family: monospace;
+  font-size: 1.5em;
+  display: block;
+  margin: 1em auto;
+  text-align: center;
+}
+@media (min-width: 26em) {
+  .formula {
+    font-size: 2em;
+  }
+}
+
+.boxes {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 3%;
+  margin: 2em 0;
+  --translation: 0;
+}
+.boxes .box {
+  width: 100%;
+  height: 0;
+  padding-bottom: 100%;
+  border: 1px solid #fff;
+  background: #fff3;
+  transform: translateY(var(--translation));
+  animation: translate 3s ease-in-out infinite;
+}
+.boxes .box:nth-child(1) {
+  --translation: calc(var(--skew-padding) * 1.5);
+}
+.boxes .box:nth-child(2) {
+  --translation: calc(var(--skew-padding) * 1);
+}
+.boxes .box:nth-child(3) {
+  --translation: calc(var(--skew-padding) * 0.5);
+}
+.boxes .box:nth-child(4) {
+  --translation: calc(var(--skew-padding) * 0);
+}
+
+@keyframes translate {
+  0%, 20%, 100% {
+    transform: translateY(0);
+  }
+  50%, 70% {
+    transform: translateY(var(--translation));
+  }
+}
+/* ---------------------------------
+   Interactive Controls
+--------------------------------- */
+.controls {
+  background: #FFF3;
+  z-index: 5;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 0 0 0.5em 0.5em;
+  max-width: 90%;
+}
+.controls__headline {
+  color: #fff;
+  margin: 0.75em 1.125em 0.625em;
+  font-size: 1em;
+  text-align: center;
+  font-weight: 400;
+}
+
+.angle-control {
+  padding: 0.75em 0.625em 0.625em;
+  margin: 0 0.5em;
+  font-size: 1em;
+  border-top: 1px solid #fff3;
+  display: flex;
+}
+.angle-control > * {
+  vertical-align: middle;
+  margin: 0 0.5em;
+}
+.angle-control span {
+  display: inline-block;
+  min-width: 6ch;
+}
+.angle-control input {
+  width: 8em;
+  flex-shrink: 1;
+}
+
+.result {
+  text-align: right;
+}
+
+[hidden] {
+  display: none;
+}
+</style>
+
+  <script>
+  window.console = window.console || function(t) {};
+</script>
+
+  
+  
+  <script>
+  if (document.location.search.match(/type=embed/gi)) {
+    window.parent.postMessage(&quot;resize&quot;, &quot;*&quot;);
+  }
+</script>
+
+
+</head>
+
+<body translate=&quot;no&quot; >
+  <div class=&quot;controls&quot;>
+  <h2 class=&quot;controls__headline&quot;>
+    Playground:
+  </h2>
+  <div class=&quot;angle-control&quot;>
+    <input type=&quot;range&quot; id=&quot;angle-control&quot; min=&quot;-60&quot; max=&quot;60&quot; step=&quot;1&quot; value=&quot;-11&quot;>
+    <span id=&quot;angle-result&quot; class=&quot;result&quot;>-11 deg</span>
+  </div>
+</div>
+<div class=&quot;diagonal-box&quot;>
+  <div class=&quot;content&quot;>
+    <h1>Tips for Pure CSS Diagonal Layouts</h1>
+    <p class=&quot;intro&quot;>
+      Below you will find a few tips for creating diagonal layouts. If this is all too fast for you, check out this <a href=&quot;https://9elements.com/blog&quot; target=&quot;_blank&quot;>step-by-step tutorial</a>.    
+    </p>
+  </div>
+</div>
+<div class=&quot;diagonal-box bg-one&quot;>
+  <div class=&quot;content&quot;>
+    <h2>1. Skew to the rescue.</h2>
+    <p>
+      When you <a href=&quot;#&quot;>rotate</a> a 100%-width box, you get some ugly corners and need to
+      make the whole box wider than 100%. The problem here is that you maybe
+      don't know the height of the element, and then you also don't know how
+      much wider than 100% it has to be.
+    </p>
+    <p>
+      So instead of <code>transform: rotate(-11deg)</code> use
+      <code>transform: skewY(-11deg)</code> and the transformed section stays
+      within it's horizontal boundaries.
+    </p>
+    <div class=&quot;columns&quot;>
+      <figure class=&quot;figure&quot;>
+        <svg viewBox=&quot;0 0 280 280&quot;>
+          <rect
+            fill=&quot;none&quot;
+            x=&quot;1&quot;
+            y=&quot;1&quot;
+            width=&quot;278&quot;
+            height=&quot;278&quot;
+            stroke=&quot;#FFF&quot;
+            stroke-width=&quot;2&quot;
+          />
+          <rect
+            class=&quot;object object--rotate&quot;
+            width=&quot;270&quot;
+            height=&quot;130&quot;
+            x=&quot;5&quot;
+            y=&quot;75&quot;
+            fill=&quot;#FFF&quot;
+            opacity=&quot;0.4&quot;
+          />
+        </svg>
+        <figcaption>transform: rotate(-11deg);</figcaption>
+      </figure>
+
+      <figure class=&quot;figure&quot;>
+        <svg viewBox=&quot;0 0 280 280&quot;>
+          <rect
+            fill=&quot;none&quot;
+            x=&quot;1&quot;
+            y=&quot;1&quot;
+            width=&quot;278&quot;
+            height=&quot;278&quot;
+            stroke=&quot;#FFF&quot;
+            stroke-width=&quot;2&quot;
+          />
+          <rect
+            class=&quot;object object--skew&quot;
+            width=&quot;270&quot;
+            height=&quot;130&quot;
+            x=&quot;5&quot;
+            y=&quot;75&quot;
+            fill=&quot;#FFF&quot;
+            opacity=&quot;0.4&quot;
+          />
+        </svg>
+        <figcaption>transform: skew(-11deg);</figcaption>
+      </figure>
+    </div>
+  </div>
+</div>
+
+<div class=&quot;diagonal-box bg-two&quot;>
+  <div class=&quot;content&quot;>
+    <h2>2. Use a pseudo-element.</h2>
+    <p>
+      If you want diagonal sections, but still write horizontally, you need to
+      re-transform the content inside the section. What you can do instead is
+      insert a <code>:before</code> pseudo-element, position it
+      <code>absolute</code> and then transform this element instead of the
+      section itself.
+    </p>
+    <div class=&quot;columns&quot;>
+      <figure class=&quot;figure&quot;>
+        <svg viewBox=&quot;0 0 280 280&quot;>
+          <rect
+            fill=&quot;none&quot;
+            x=&quot;1&quot;
+            y=&quot;1&quot;
+            width=&quot;278&quot;
+            height=&quot;278&quot;
+            stroke=&quot;#FFF&quot;
+            stroke-width=&quot;2&quot;
+          />
+          <rect
+            class=&quot;object object--skew-pause&quot;
+            width=&quot;270&quot;
+            height=&quot;130&quot;
+            x=&quot;5&quot;
+            y=&quot;75&quot;
+            fill=&quot;#FFF&quot;
+            opacity=&quot;0.4&quot;
+          />
+          <rect
+            class=&quot;object object--skew-pause-alt&quot;
+            width=&quot;220&quot;
+            height=&quot;80&quot;
+            x=&quot;30&quot;
+            y=&quot;100&quot;
+            fill=&quot;#FFF&quot;
+            opacity=&quot;0.4&quot;
+          />
+        </svg>
+        <figcaption>
+          The content needs to be re-transformed, when you transform the whole
+          section.
+        </figcaption>
+      </figure>
+
+      <figure class=&quot;figure&quot;>
+        <svg viewBox=&quot;0 0 280 280&quot;>
+          <rect
+            fill=&quot;none&quot;
+            x=&quot;1&quot;
+            y=&quot;1&quot;
+            width=&quot;278&quot;
+            height=&quot;278&quot;
+            stroke=&quot;#FFF&quot;
+            stroke-width=&quot;2&quot;
+          />
+          <rect
+            class=&quot;object object--skew-pause&quot;
+            width=&quot;270&quot;
+            height=&quot;130&quot;
+            x=&quot;5&quot;
+            y=&quot;75&quot;
+            fill=&quot;#FFF&quot;
+            opacity=&quot;0.4&quot;
+          />
+          <rect
+            class=&quot;object&quot;
+            width=&quot;220&quot;
+            height=&quot;80&quot;
+            x=&quot;30&quot;
+            y=&quot;100&quot;
+            fill=&quot;#FFF&quot;
+            opacity=&quot;0.4&quot;
+          />
+        </svg>
+        <figcaption>
+          Content is not affected when transforming a pseudo-element in the
+          background.
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</div>
+
+<div class=&quot;diagonal-box bg-three&quot;>
+  <div class=&quot;content&quot;>
+    <h2>3. Find the right padding.</h2>
+    <p>
+      Because of the transformation, some elements <em>bleed</em> into the previous and the next element. To find a safe area where you can place content, you need to add some padding. The amount of padding can be calculated with this formula:<br>
+      <span class=&quot;formula&quot;>x = tan(&amp;alpha;) * a / 2</span>
+    </p>
+    <svg viewBox=&quot;0 0 560 305&quot;>
+      <g fill=&quot;none&quot; fill-rule=&quot;evenodd&quot;>
+        <rect
+          width=&quot;558&quot;
+          height=&quot;198&quot;
+          x=&quot;1&quot;
+          y=&quot;53&quot;
+          stroke=&quot;#FFF&quot;
+          stroke-width=&quot;2&quot;
+        />
+        <polygon
+          fill=&quot;#FFF&quot;
+          points=&quot;6 106.52 554 0 554 198 6 304.52&quot;
+          opacity=&quot;.3&quot;
+        />
+        <line
+          x1=&quot;554.5&quot;
+          x2=&quot;554.5&quot;
+          y2=&quot;51&quot;
+          stroke=&quot;#FFF&quot;
+          stroke-dasharray=&quot;2 2&quot;
+          stroke-width=&quot;2&quot;
+        />
+        <line
+          x1=&quot;6.5&quot;
+          x2=&quot;6.5&quot;
+          y1=&quot;53&quot;
+          y2=&quot;104&quot;
+          stroke=&quot;#FFF&quot;
+          stroke-dasharray=&quot;2 2&quot;
+          stroke-width=&quot;2&quot;
+        />
+        <path
+          fill=&quot;#FFF&quot;
+          fill-rule=&quot;nonzero&quot;
+          d=&quot;M325.1 33.3c1.3 0 2-1.7 2-3.7h-.3c-.2 1.5-.5 2-.9 2-.7 0-1.5-2.3-1.7-3.5l2.8-6.8h-2.5l-1.2 3.5c-.5-1.8-1.7-3.8-4-3.8-3.2 0-5.1 2.9-5.1 6.2 0 3.5 2 6 4.9 6 2 0 3-1.2 4-2.8.3 1.7 1 2.9 2 2.9zm-5.8-.8c-2.3 0-2.8-4.7-2.8-6.6 0-3 1.4-4.1 2.7-4.1 1.9 0 2.6 3.9 2.8 5.8-.2 1.4-1 5-2.7 5z&quot;
+        />
+        <text fill=&quot;#FFF&quot; font-family=&quot;Raleway&quot; font-size=&quot;26&quot;>
+          <tspan x=&quot;273&quot; y=&quot;153&quot;>a</tspan>
+        </text>
+        <text fill=&quot;#FFF&quot; font-family=&quot;Raleway&quot; font-size=&quot;26&quot;>
+          <tspan x=&quot;17.1&quot; y=&quot;88&quot;>x</tspan>
+        </text>
+        <text fill=&quot;#FFF&quot; font-family=&quot;Raleway&quot; font-size=&quot;26&quot;>
+          <tspan x=&quot;530.1&quot; y=&quot;35&quot;>x</tspan>
+        </text>
+        <line
+          x1=&quot;6&quot;
+          x2=&quot;554&quot;
+          y1=&quot;165&quot;
+          y2=&quot;165&quot;
+          stroke=&quot;#FFF&quot;
+          stroke-dasharray=&quot;2 2&quot;
+          stroke-width=&quot;2&quot;
+        />
+        <path
+          stroke=&quot;#FFF&quot;
+          stroke-dasharray=&quot;1 1&quot;
+          d=&quot;M346 53c0-4.1-.4-8.1-1-12&quot;
+        />
+      </g>
+    </svg>
+    <p>Sadly you can not make this completely dynamic without javascript, as CSS calculations don't support <code>sin</code>, <code>cos</code> and <code>tan</code>. </p>
+    <p><strong>Pro Tip:</strong> I think most of you will use deg as unit, when you do the transformation: <code>skewY(-11deg)</code>. <br>
+      If you do so, you also have to use <strong>Deg</strong> and not <Strong>Rad</Strong> when you calculate tangens. The standard <a href=&quot;https://www.google.com/search?q=calculator&quot; target=&quot;_blank&quot;>google calculator</a> uses <strong>Rad</strong> as default.</p>
+  </div>
+</div>
+
+<div class=&quot;diagonal-box bg-one&quot;>
+  <div class=&quot;content&quot;>
+    <h2>4. Use CSS-Variables to store the padding-value.</h2>
+    <p>You can use CSS Custom Properties to store the calculated value for the needed padding and reuse it. For example you can translate elements so that they are in line with the diagonal background-line.</p>
+    <p><code>transform: translateY(var(--skew-padding))</code></p>
+    <div class=&quot;boxes&quot;>
+      <div class=&quot;box&quot;></div>
+      <div class=&quot;box&quot;></div>
+      <div class=&quot;box&quot;></div>
+      <div class=&quot;box&quot;></div>
+    </div>
+  </div>
+</div>
+
+<div class=&quot;diagonal-box bg-two&quot;>
+  <div class=&quot;content&quot;>
+    <h2>And that's it</h2>
+    <p>
+      If this all went too fast for you, you find a more <a href=&quot;https://9elements.com/blog/pure-css-diagonal-layouts/&quot; target=&quot;_blank&quot;>detailed article here</a>. And for all further questions, you can find me on <a href=&quot;https://twitter.com/supremebeing09&quot; target=&quot;_blank&quot;>Twitter</a>.
+      Thanks for reading. 
+    </p>
+  </div>
+</div>
+<div class=&quot;clip-path&quot;>
+  <div class=&quot;content&quot;>
+    <h2>Update 28. Feb. 2020:<br>Combine with Clip-Path</h2>
+    <p>Quite a few people mentioned to me that you could also do this by using clip-path. So I added this section here, where there is no skew-transform, but parts of the section are hidden with clip-path.</p>
+    <p>This technique works fine as well, only the calculation of the padding is a little harder, as you need both the width of the container and the width of the viewport.</p>
+    <p>The significant advantage, though: you can place background-images to the section without them being transformed.</p>
+  </div>
+</div>
+    <script src=&quot;https://static.codepen.io/assets/common/stopExecutionOnTimeout-157cd5b220a5c80d4ff8e0e70ac069bffd87a61252088146915e8726e5d9f147.js&quot;></script>
+
+  
+  
+      <script id=&quot;rendered-js&quot; >
+const angleRange = document.getElementById('angle-control');
+const angleResult = document.getElementById('angle-result');
+const root = document.querySelector('HTML');
+const boxes = document.querySelectorAll('.box');
+
+angleRange.addEventListener(&quot;input&quot;, function () {
+  const angle = angleRange.value;
+  const angleRad = angle * Math.PI / 180;
+  const magicNumber = Math.abs(Math.tan(angleRad) / 2);
+  angleResult.innerHTML = angleRange.value + &quot; deg&quot;;
+  document.documentElement.style.setProperty('--angle', angleRange.value + 'deg');
+  document.documentElement.style.setProperty('--magic-number', magicNumber);
+
+  // Sadly the animation only updates correctly in Firefox :-(
+  boxes.forEach(box => {
+    box.style.animation = &quot;none&quot;;
+  });
+}, false);
+//# sourceURL=pen.js
+    </script>
+
+  
+  
+
+</body>
+
+</html>
+ 
+" sandbox="allow-forms allow-modals allow-pointer-lock allow-popups allow-presentation allow-same-origin allow-scripts" allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; microphone; midi; payment; vr" allowTransparency="true" allowpaymentrequest="true" allowfullscreen="true" class="result-iframe">
+      </iframe>
+</div>
+</body>
+</html>
